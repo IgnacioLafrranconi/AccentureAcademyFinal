@@ -1,0 +1,57 @@
+﻿@using AcademyFinal.Models
+@model Book
+
+@{
+    ViewBag.Title = "Agregar";
+}
+
+@{
+    BookStoreEntities db = new BookStoreEntities();
+    List<Author> listAuthors = db.Author.ToList();
+    List<Genre> listGenre = db.Genre.ToList();
+    List<Publisher> listPublisher = db.Publisher.ToList();
+
+}
+
+    <script>
+    function nuevoGenero()
+    {
+        var lista = document.getElementById("listGenre");
+        var select = lista.firstElementChild;
+        var copiaSelect = select.cloneNode(true);
+        copiaSelect.selectedIndex = 0;
+        lista.appendChild(copiaSelect);
+    }
+
+    </script>
+
+<h2>Agregar</h2>
+
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        <label>Titulo</label>
+        <input type="text" name="Title" value="" placeholder="Ingrese el titulo" class="form-control" />
+
+        <label>Autor</label>
+        <input type="text" name="AuthorName" value="" placeholder="Ingrese el autor" class="form-control" />
+
+        <label>Genero</label>
+        <div id="listGenre">
+            <select class="form-control" name="genres">
+                <option>Seleccione un genero...</option>
+                @foreach (Genre genreActual in listGenre)
+                {
+                    <option value="@genreActual.Id">@genreActual.TypeGenre</option>
+                }
+            </select>
+        </div>
+
+
+        <label>Editorial</label>
+        <input type="text" name="PublisherName" value="" placeholder="Ingrese la editorial" class="form-control" />
+
+        <button class="btn btn-group" style="margin-top:1em">Enviar</button>
+
+    }
+</div>

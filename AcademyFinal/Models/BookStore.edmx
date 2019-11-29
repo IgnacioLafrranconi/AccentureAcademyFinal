@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BookStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AuthorName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeGenre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GenreIs">
+          <Key>
+            <PropertyRef Name="Genre_Id" />
+            <PropertyRef Name="Book_Id" />
+          </Key>
+          <Property Name="Genre_Id" Type="int" Nullable="false" />
+          <Property Name="Book_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PublishedBy">
+          <Key>
+            <PropertyRef Name="Publisher_Id" />
+            <PropertyRef Name="Book_Id" />
+          </Key>
+          <Property Name="Publisher_Id" Type="int" Nullable="false" />
+          <Property Name="Book_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PublisherName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WritenBy">
+          <Key>
+            <PropertyRef Name="Author_Id" />
+            <PropertyRef Name="Book_Id" />
+          </Key>
+          <Property Name="Author_Id" Type="int" Nullable="false" />
+          <Property Name="Book_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AUTOR_BOOK">
+          <End Role="Author" Type="Self.Author" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WritenBy" Type="Self.WritenBy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WritenBy">
+              <PropertyRef Name="Author_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTOR_GENRE">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GenreIs" Type="Self.GenreIs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GenreIs">
+              <PropertyRef Name="Genre_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTOR_PUBLISHER">
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PublishedBy" Type="Self.PublishedBy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PublishedBy">
+              <PropertyRef Name="Publisher_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOK_AUTHOR">
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WritenBy" Type="Self.WritenBy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WritenBy">
+              <PropertyRef Name="Book_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOK_GENRE">
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GenreIs" Type="Self.GenreIs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GenreIs">
+              <PropertyRef Name="Book_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOK_PUBLISHER">
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PublishedBy" Type="Self.PublishedBy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PublishedBy">
+              <PropertyRef Name="Book_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookStoreModelStoreContainer">
+          <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genre" EntityType="Self.Genre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GenreIs" EntityType="Self.GenreIs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PublishedBy" EntityType="Self.PublishedBy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Publisher" EntityType="Self.Publisher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WritenBy" EntityType="Self.WritenBy" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AUTOR_BOOK" Association="Self.FK_AUTOR_BOOK">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="WritenBy" EntitySet="WritenBy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTOR_GENRE" Association="Self.FK_AUTOR_GENRE">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="GenreIs" EntitySet="GenreIs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTOR_PUBLISHER" Association="Self.FK_AUTOR_PUBLISHER">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="PublishedBy" EntitySet="PublishedBy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOK_AUTHOR" Association="Self.FK_BOOK_AUTHOR">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="WritenBy" EntitySet="WritenBy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOK_GENRE" Association="Self.FK_BOOK_GENRE">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="GenreIs" EntitySet="GenreIs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOK_PUBLISHER" Association="Self.FK_BOOK_PUBLISHER">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="PublishedBy" EntitySet="PublishedBy" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BookStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Author" EntityType="BookStoreModel.Author" />
+          <EntitySet Name="Book" EntityType="BookStoreModel.Book" />
+          <EntitySet Name="Genre" EntityType="BookStoreModel.Genre" />
+          <EntitySet Name="Publisher" EntityType="BookStoreModel.Publisher" />
+          <AssociationSet Name="GenreIs" Association="BookStoreModel.GenreIs">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="PublishedBy" Association="BookStoreModel.PublishedBy">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="WritenBy" Association="BookStoreModel.WritenBy">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AuthorName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="BookStoreModel.WritenBy" FromRole="Author" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Genre" Relationship="BookStoreModel.GenreIs" FromRole="Book" ToRole="Genre" />
+          <NavigationProperty Name="Publisher" Relationship="BookStoreModel.PublishedBy" FromRole="Book" ToRole="Publisher" />
+          <NavigationProperty Name="Author" Relationship="BookStoreModel.WritenBy" FromRole="Book" ToRole="Author" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeGenre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="BookStoreModel.GenreIs" FromRole="Genre" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PublisherName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="BookStoreModel.PublishedBy" FromRole="Publisher" ToRole="Book" />
+        </EntityType>
+        <Association Name="GenreIs">
+          <End Type="BookStoreModel.Genre" Role="Genre" Multiplicity="*" />
+          <End Type="BookStoreModel.Book" Role="Book" Multiplicity="*" />
+        </Association>
+        <Association Name="PublishedBy">
+          <End Type="BookStoreModel.Publisher" Role="Publisher" Multiplicity="*" />
+          <End Type="BookStoreModel.Book" Role="Book" Multiplicity="*" />
+        </Association>
+        <Association Name="WritenBy">
+          <End Type="BookStoreModel.Author" Role="Author" Multiplicity="*" />
+          <End Type="BookStoreModel.Book" Role="Book" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookStoreModelStoreContainer" CdmEntityContainer="BookStoreEntities">
+          <EntitySetMapping Name="Author">
+            <EntityTypeMapping TypeName="BookStoreModel.Author">
+              <MappingFragment StoreEntitySet="Author">
+                <ScalarProperty Name="AuthorName" ColumnName="AuthorName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Book">
+            <EntityTypeMapping TypeName="BookStoreModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genre">
+            <EntityTypeMapping TypeName="BookStoreModel.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="TypeGenre" ColumnName="TypeGenre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publisher">
+            <EntityTypeMapping TypeName="BookStoreModel.Publisher">
+              <MappingFragment StoreEntitySet="Publisher">
+                <ScalarProperty Name="PublisherName" ColumnName="PublisherName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="GenreIs" TypeName="BookStoreModel.GenreIs" StoreEntitySet="GenreIs">
+            <EndProperty Name="Book">
+              <ScalarProperty Name="Id" ColumnName="Book_Id" />
+            </EndProperty>
+            <EndProperty Name="Genre">
+              <ScalarProperty Name="Id" ColumnName="Genre_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PublishedBy" TypeName="BookStoreModel.PublishedBy" StoreEntitySet="PublishedBy">
+            <EndProperty Name="Book">
+              <ScalarProperty Name="Id" ColumnName="Book_Id" />
+            </EndProperty>
+            <EndProperty Name="Publisher">
+              <ScalarProperty Name="Id" ColumnName="Publisher_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="WritenBy" TypeName="BookStoreModel.WritenBy" StoreEntitySet="WritenBy">
+            <EndProperty Name="Book">
+              <ScalarProperty Name="Id" ColumnName="Book_Id" />
+            </EndProperty>
+            <EndProperty Name="Author">
+              <ScalarProperty Name="Id" ColumnName="Author_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
