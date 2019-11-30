@@ -22,20 +22,20 @@
         lista.appendChild(copiaSelect);
     }</script>
 
-<h2>Agregar</h2>
+<h2 class="jumbotron  ">Agregar</h2>
 
 <div class="container">
     @using (Html.BeginForm())
     {
         <label>Titulo</label>
-        <input type="text" name="Title" value="" placeholder="Ingrese el titulo" class="form-control" />
+        <input type="text" name="Title" value="" placeholder="Ingrese el titulo" class="form-control" required/>
 
         <label>Autor</label>
-        <input type="text" name="AuthorName" value="" placeholder="Ingrese el autor" class="form-control" />
+        <input type="text" name="AuthorName" value="" placeholder="Ingrese el autor" class="form-control" required/>
 
         <label>Genero</label>
         <div id="listGenre">
-            <select class="form-control" name="genres">
+            <select class="form-control" name="genres" required>
                 <option>Seleccione un genero...</option>
                 @foreach (Genre genreActual in listGenre)
                 {
@@ -46,7 +46,7 @@
 
 
         <label>Editorial</label>
-        <input type="text" name="PublisherName" value="" placeholder="Ingrese la editorial" class="form-control" />
+        <input type="text" name="PublisherName" value="" placeholder="Ingrese la editorial" class="form-control" required/>
 
         <button class="btn btn-group" style="margin-top:1em">Enviar</button>
 

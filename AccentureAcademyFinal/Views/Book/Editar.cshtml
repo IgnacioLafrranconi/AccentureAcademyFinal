@@ -1,0 +1,54 @@
+﻿@using AccentureAcademyFinal.Models
+@model Book
+@{
+    ViewBag.Title = "Editar";
+}
+
+@{
+    BookStoreEntities db = new BookStoreEntities();
+    List<Genre> genres = db.Genre.OrderBy(gen => gen.TypeGenre).ToList();
+
+
+}
+
+<h2>Editar</h2>
+
+@using (Html.BeginForm())
+{
+
+    <label>Titulo</label>
+
+    <input type="text" name="Title" value="@this.Model.Title" class="form-control" required />
+
+    <label>Autor</label>
+    foreach (Author item in this.Model.Author)
+    {
+        <input type="text" name="AuthorName" value="@item.AuthorName" class="form-control" required />
+    }
+    
+    
+    <label>Genero</label>
+    foreach (Genre genreIs in this.Model.Genre)
+    {
+        
+        <select class="form-control" name="genre" required>
+            <option>Seleccione un genero..</option>
+            @foreach (Genre item in genres)
+            {
+                <option @(genreIs.Id.Equals(item.Id) ? "selected" : "") 
+                        value="@item.Id">
+                    @item.TypeGenre
+                </option>
+            }
+        </select>
+    }
+
+    <label>Autor</label>
+    foreach (Publisher item in this.Model.Publisher)
+    {
+        <input type="text" name="PublisherName" value="@item.PublisherName" class="form-control" required />
+    }
+
+    <button class="btn btn-group" style="margin-top:1em">Enviar</button>
+}
+

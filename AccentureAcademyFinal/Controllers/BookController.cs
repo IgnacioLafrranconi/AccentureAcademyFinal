@@ -42,9 +42,45 @@ namespace AcademyFinal.Controllers
 
         public ActionResult Listar()
         {
-            List<Book> listBook = new List<Book>();
-            return View();
+            BookStoreEntities db = new BookStoreEntities();
+            return View(db.Book.ToList());
         }
+
+        public ActionResult Eliminar(int id)
+        {
+            Book book = this.db.Book.Find(id);
+            this.db.Book.Remove(book);
+            this.db.SaveChanges();
+            return RedirectToAction("Listar");
+        }
+
+        public ActionResult Editar(int id)
+        {
+            Book m = this.db.Book.Find(id);
+            return View(m);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(Book book,Author author,IEnumerable<int> genre,Publisher publisher)
+        {
+
+            foreach (int item in genre)
+            {
+                Genre genreReferencia = new Genre();
+                genreReferencia = db.Genre.Find(item);
+                book.Genre.Add(genreReferencia);
+            }
+
+            book.Author.Add(author);
+            book.Publisher.Add(publisher);
+            
+
+            this.db.Book.Attach(book);
+            this.db.Entry(book).State = System.Data.Entity.EntityState.Modified;
+            this.db.SaveChanges();
+            return RedirectToAction("Listar");
+        }
+
 
     }
 }
