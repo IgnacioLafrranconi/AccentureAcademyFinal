@@ -1,0 +1,20 @@
+﻿@using AccentureAcademyFinal.Models
+@model IEnumerable<Book>
+@{
+    ViewBag.Title = "AgregarGenero";
+}
+
+<h2 class="jumbotron">Añadir genero</h2>
+
+<div class="container">
+    @using (Html.BeginForm())
+    {
+    <div>
+        <label>Añadir un genero</label>
+        <input type="text" name="TypeGenre" value="" placeholder="Ingrese el genero" required pattern="[a-zA-Z0-9]{2,20}" title="Ingrese un genero. Entre 2 y 20 caracteres" />
+        <button class="btn btn-primary" >Enviar</button>
+        <a href="~/Book/Listar" style="margin-top:1em">Volver a la lista</a>
+    </div>
+    }
+
+</div>

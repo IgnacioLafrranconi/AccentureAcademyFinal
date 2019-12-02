@@ -24,18 +24,25 @@ namespace AcademyFinal.Controllers
         [HttpPost]
         public ActionResult Agregar(Book book, Author authors, IEnumerable<int> genres, Publisher publisher)
         {
-            foreach (int item in genres)
+            try
             {
-                Genre genreReferencia = new Genre();
-                genreReferencia = db.Genre.Find(item);
-                book.Genre.Add(genreReferencia);
+                foreach (int item in genres)
+                {
+                    Genre genreReferencia = new Genre();
+                    genreReferencia = db.Genre.Find(item);
+                    book.Genre.Add(genreReferencia);
+                }
+
+                book.Author.Add(authors);
+                book.Publisher.Add(publisher);
+
+                this.db.Book.Add(book);
+                this.db.SaveChanges();
             }
-
-            book.Author.Add(authors);
-            book.Publisher.Add(publisher);
-
-            this.db.Book.Add(book);
-            this.db.SaveChanges();
+            catch
+            {
+                return View("Error");
+            }
 
             return View();
         }
@@ -56,31 +63,27 @@ namespace AcademyFinal.Controllers
         public ActionResult Listar(ListarViewModel filtros)
         {
             IQueryable<Book> qry = this.db.Book;
-
-            if (filtros.FilterTitle != null)
+            try
             {
-                qry = qry.Where(lib => lib.Title.Contains(filtros.FilterTitle));
-            }
+                if (filtros.FilterTitle != null)
+                {
+                    qry = qry.Where(lib => lib.Title.Contains(filtros.FilterTitle));
+                }
 
-            if (filtros.FilterGenre.HasValue)
+                if (filtros.FilterGenre.HasValue)
+                {
+                    qry = qry.Where(lib =>
+                        lib.Genre.Any(
+                               aut => aut.Id.Equals(filtros.FilterGenre.Value)
+                        )
+                    );
+                }
+            }
+            catch
             {
-                qry = qry.Where(lib =>
-                    lib.Author.Any(
-                           aut => aut.Id.Equals(filtros.FilterGenre.Value)
-                    )
-                );
+                this.ViewBag.Error = "Error vuelva a intentar";
+                return View("Error");
             }
-
-            if (filtros.FilterAuhtor != null)
-            {
-                qry = qry.Where(lib => lib.Title.Contains(filtros.FilterAuhtor));
-            }
-
-            if (filtros.FilterPublisher != null)
-            {
-                qry = qry.Where(lib => lib.Title.Contains(filtros.FilterPublisher));
-            }
-
             return View(qry.ToList());
         }
 
@@ -103,24 +106,58 @@ namespace AcademyFinal.Controllers
         [HttpPost]
         public ActionResult Editar(Book book,Author author,IEnumerable<int> genre,Publisher publisher)
         {
-
-            book.Author.Add(author);
-            book.Publisher.Add(publisher);
-
-
-            foreach (int item in genre)
+            try
             {
-                Genre genreReferencia = new Genre();
-                genreReferencia = db.Genre.Find(item);
-                book.Genre.Add(genreReferencia);
+                book.Author.Add(author);
+                book.Publisher.Add(publisher);
+
+
+                foreach (int item in genre)
+                {
+                    Genre genreReferencia = new Genre();
+                    genreReferencia = db.Genre.Find(item);
+                    book.Genre.Add(genreReferencia);
+                }
+
+                this.db.Book.Attach(book);
+                this.db.Entry(book).State = System.Data.Entity.EntityState.Modified;
+                this.db.SaveChanges();
+            }
+            catch
+            {
+                this.ViewBag.Error = "Error vuelva a intentar";
+                return View("Error");
             }
 
-            this.db.Book.Attach(book);
-            this.db.Entry(book).State = System.Data.Entity.EntityState.Modified;
-            this.db.SaveChanges();
             return RedirectToAction("Listar");
         }
 
 
+        public ActionResult AgregarGenero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AgregarGenero(Genre genre)
+        {
+            try
+            {
+                db.Genre.Add(genre);
+                db.SaveChanges();
+            }
+            catch
+            {
+                this.ViewBag.Error = "Error Vuelva a intentar";
+                return View("Error");
+            }
+           return View("Listar");
+        }
+
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

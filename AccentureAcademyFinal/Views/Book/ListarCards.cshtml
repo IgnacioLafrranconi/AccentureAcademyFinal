@@ -17,7 +17,7 @@
 
 <a href="~/Book/Listar">
     <p class="glyphicon glyphicon-list"></p>
-   <p>lista completa</p>
+   <p>Vista en lista</p>
 </a>
 
 
@@ -33,23 +33,25 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <h3 class="card-title">@book.Title</h3>
-                        @foreach (var item in book.Genre)
-                        {
-                            <p class="card-text">Genero: @item.TypeGenre</p>
-                        }
-                        @foreach (var item in book.Author)
-                        {
-                            <p class="card-text">Autor: @item.AuthorName</p>
-                        }
-                        @foreach (var item in book.Publisher)
-                        {
-                            <p class="card-text">Editorial: @item.PublisherName</p>
-                        }
+                            @foreach (var item in book.Genre)
+                            {
+                                <p class="card-text">Genero: @item.TypeGenre</p>
+                            }
+                            @foreach (var item in book.Author)
+                            {
+                                <p class="card-text">Autor: @item.AuthorName</p>
+                            }
+                            @foreach (var item in book.Publisher)
+                            {
+                                <p class="card-text">Editorial: @item.PublisherName</p>
+                            }
+
+                            @Html.ActionLink("Editar", "Editar", new { Id = book.Id })                   
+                            @Html.ActionLink("Eliminar", "Eliminar", new { Id = book.Id })                        
                     </div>
-                </div>
+                 </div>
             </div>
         </div>
-
     }
 </div>
 

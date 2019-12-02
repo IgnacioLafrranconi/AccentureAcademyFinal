@@ -15,14 +15,14 @@ GO
 Create table Author 
 (
 	Id int primary key identity(1,1),
-	AuthorName varchar(50) Unique not null,
+	AuthorName varchar(50) not null,
 );
 GO
 
 Create table Publisher 
 (
 	Id int primary key identity(1,1),
-	PublisherName varchar(50) Unique not null,
+	PublisherName varchar(50) not null,
 );
 GO
 

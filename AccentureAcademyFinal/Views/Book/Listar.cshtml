@@ -13,7 +13,7 @@
 
 @using (Html.BeginForm())
 {
-    <table class="table table-hover">
+    <table class="table table-hover" style="background-color:whitesmoke; border-radius:3px; padding:1em">
         <thead>
             <tr>
                 <th>Titulo</th>
@@ -42,19 +42,15 @@
                         }
                     </select>
                 </td>
-                <td>
-                    <input name="FilterAuthor" type="text" class="form-control" />
-                </td>
-                <td>
-                    <input name="FilterPublisher" type="text" class="form-control" />
-                </td>
+                <td></td>
+                <td></td>
+
                 <td class="text-right">
                     <button class="glyphicon glyphicon-search btn btn-primary"></button>
                 </td>
             </tr>
             @foreach (Book libro in this.Model)
             {
-
                 <tr>
                     <td><h4>@libro.Title</h4></td>
                     <td>

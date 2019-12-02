@@ -222,9 +222,12 @@
     <Content Include="Views\Book\Listar.cshtml" />
     <Content Include="Views\Book\Editar.cshtml" />
     <Content Include="Views\Book\ListarCards.cshtml" />
+    <Content Include="Views\Book\AgregarGenero.cshtml" />
+    <Content Include="Views\Book\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Add\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
