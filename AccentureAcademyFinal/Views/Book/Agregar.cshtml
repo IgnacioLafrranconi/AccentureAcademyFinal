@@ -28,10 +28,10 @@
     @using (Html.BeginForm())
     {
         <label>Titulo</label>
-        <input type="text" name="Title" value="" placeholder="Ingrese el titulo" class="form-control" required/>
+        <input type="text" name="Title" value="" placeholder="Ingrese el titulo" class="form-control" required pattern="[A-Za-z0-9_]{2,20}" title="Ingrese un titulo. Entre 2 y 20 caracteres"/>
 
         <label>Autor</label>
-        <input type="text" name="AuthorName" value="" placeholder="Ingrese el autor" class="form-control" required/>
+        <input type="text" name="AuthorName" value="" placeholder="Ingrese el autor" class="form-control" required pattern="[A-Za-z0-9_]{2,20}" />
 
         <label>Genero</label>
         <div id="listGenre">
@@ -46,9 +46,11 @@
 
 
         <label>Editorial</label>
-        <input type="text" name="PublisherName" value="" placeholder="Ingrese la editorial" class="form-control" required/>
+        <input type="text" name="PublisherName" value="" placeholder="Ingrese la editorial" class="form-control" required pattern="[A-Za-z0-9]{2,20}" />
 
+        
         <button class="btn btn-group" style="margin-top:1em">Enviar</button>
+        
 
     }
 </div>

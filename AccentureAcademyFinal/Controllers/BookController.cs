@@ -37,7 +37,7 @@ namespace AcademyFinal.Controllers
             this.db.Book.Add(book);
             this.db.SaveChanges();
 
-            return Content("Libro Agregado");
+            return View();
         }
 
         public ActionResult Listar()
@@ -45,6 +45,46 @@ namespace AcademyFinal.Controllers
             BookStoreEntities db = new BookStoreEntities();
             return View(db.Book.ToList());
         }
+
+        public ActionResult ListarCards()
+        {
+            BookStoreEntities db = new BookStoreEntities();
+            return View(db.Book.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult Listar(ListarViewModel filtros)
+        {
+            IQueryable<Book> qry = this.db.Book;
+
+            if (filtros.FilterTitle != null)
+            {
+                qry = qry.Where(lib => lib.Title.Contains(filtros.FilterTitle));
+            }
+
+            if (filtros.FilterGenre.HasValue)
+            {
+                qry = qry.Where(lib =>
+                    lib.Author.Any(
+                           aut => aut.Id.Equals(filtros.FilterGenre.Value)
+                    )
+                );
+            }
+
+            if (filtros.FilterAuhtor != null)
+            {
+                qry = qry.Where(lib => lib.Title.Contains(filtros.FilterAuhtor));
+            }
+
+            if (filtros.FilterPublisher != null)
+            {
+                qry = qry.Where(lib => lib.Title.Contains(filtros.FilterPublisher));
+            }
+
+            return View(qry.ToList());
+        }
+
+
 
         public ActionResult Eliminar(int id)
         {
@@ -64,16 +104,16 @@ namespace AcademyFinal.Controllers
         public ActionResult Editar(Book book,Author author,IEnumerable<int> genre,Publisher publisher)
         {
 
+            book.Author.Add(author);
+            book.Publisher.Add(publisher);
+
+
             foreach (int item in genre)
             {
                 Genre genreReferencia = new Genre();
                 genreReferencia = db.Genre.Find(item);
                 book.Genre.Add(genreReferencia);
             }
-
-            book.Author.Add(author);
-            book.Publisher.Add(publisher);
-            
 
             this.db.Book.Attach(book);
             this.db.Entry(book).State = System.Data.Entity.EntityState.Modified;

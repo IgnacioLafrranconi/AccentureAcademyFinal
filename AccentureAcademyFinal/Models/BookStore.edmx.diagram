@@ -5,13 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="833c1b12a680407d8f6b2e663e4e7711" Name="Diagram1">
-        <EntityTypeShape EntityType="BookStoreModel.Author" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreModel.Book" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreModel.Genre" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreModel.Publisher" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="BookStoreModel.GenreIs" ManuallyRouted="false" />
-        <AssociationConnector Association="BookStoreModel.PublishedBy" ManuallyRouted="false" />
-        <AssociationConnector Association="BookStoreModel.WritenBy" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BookStoreModel.Author" Width="1.5" PointX="0.75" PointY="6.625" />
+        <EntityTypeShape EntityType="BookStoreModel.Book" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="BookStoreModel.Genre" Width="1.5" PointX="0.75" PointY="4.25" />
+        <EntityTypeShape EntityType="BookStoreModel.Publisher" Width="1.5" PointX="0.75" PointY="1.125" />
+        <AssociationConnector Association="BookStoreModel.GenreIs" />
+        <AssociationConnector Association="BookStoreModel.PublishedBy" />
+        <AssociationConnector Association="BookStoreModel.WritenBy" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

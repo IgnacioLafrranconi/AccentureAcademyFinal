@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Author">
           <Key>
             <PropertyRef Name="Id" />
@@ -174,75 +174,74 @@
             <End Role="PublishedBy" EntitySet="PublishedBy" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BookStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Author" EntityType="BookStoreModel.Author" />
+          <EntitySet Name="Book" EntityType="BookStoreModel.Book" />
+          <EntitySet Name="Genre" EntityType="BookStoreModel.Genre" />
+          <EntitySet Name="Publisher" EntityType="BookStoreModel.Publisher" />
+          <AssociationSet Name="GenreIs" Association="BookStoreModel.GenreIs">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="PublishedBy" Association="BookStoreModel.PublishedBy">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="WritenBy" Association="BookStoreModel.WritenBy">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Author">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AuthorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Book" Relationship="Self.WritenBy" FromRole="Author" ToRole="Book" />
+          <Property Name="AuthorName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="BookStoreModel.WritenBy" FromRole="Author" ToRole="Book" />
         </EntityType>
         <EntityType Name="Book">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Genre" Relationship="Self.GenreIs" FromRole="Book" ToRole="Genre" />
-          <NavigationProperty Name="Publisher" Relationship="Self.PublishedBy" FromRole="Book" ToRole="Publisher" />
-          <NavigationProperty Name="Author" Relationship="Self.WritenBy" FromRole="Book" ToRole="Author" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Genre" Relationship="BookStoreModel.GenreIs" FromRole="Book" ToRole="Genre" />
+          <NavigationProperty Name="Publisher" Relationship="BookStoreModel.PublishedBy" FromRole="Book" ToRole="Publisher" />
+          <NavigationProperty Name="Author" Relationship="BookStoreModel.WritenBy" FromRole="Book" ToRole="Author" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TypeGenre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Book" Relationship="Self.GenreIs" FromRole="Genre" ToRole="Book" />
+          <Property Name="TypeGenre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="BookStoreModel.GenreIs" FromRole="Genre" ToRole="Book" />
         </EntityType>
         <EntityType Name="Publisher">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PublisherName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Book" Relationship="Self.PublishedBy" FromRole="Publisher" ToRole="Book" />
+          <Property Name="PublisherName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="BookStoreModel.PublishedBy" FromRole="Publisher" ToRole="Book" />
         </EntityType>
         <Association Name="GenreIs">
-          <End Role="Genre" Type="Self.Genre" Multiplicity="*" />
-          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <End Type="BookStoreModel.Genre" Role="Genre" Multiplicity="*" />
+          <End Type="BookStoreModel.Book" Role="Book" Multiplicity="*" />
         </Association>
         <Association Name="PublishedBy">
-          <End Role="Publisher" Type="Self.Publisher" Multiplicity="*" />
-          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <End Type="BookStoreModel.Publisher" Role="Publisher" Multiplicity="*" />
+          <End Type="BookStoreModel.Book" Role="Book" Multiplicity="*" />
         </Association>
         <Association Name="WritenBy">
-          <End Role="Author" Type="Self.Author" Multiplicity="*" />
-          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <End Type="BookStoreModel.Author" Role="Author" Multiplicity="*" />
+          <End Type="BookStoreModel.Book" Role="Book" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="BookStoreEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Author" EntityType="Self.Author" />
-          <EntitySet Name="Book" EntityType="Self.Book" />
-          <EntitySet Name="Genre" EntityType="Self.Genre" />
-          <EntitySet Name="Publisher" EntityType="Self.Publisher" />
-          <AssociationSet Name="GenreIs" Association="Self.GenreIs">
-            <End Role="Genre" EntitySet="Genre" />
-            <End Role="Book" EntitySet="Book" />
-          </AssociationSet>
-          <AssociationSet Name="PublishedBy" Association="Self.PublishedBy">
-            <End Role="Publisher" EntitySet="Publisher" />
-            <End Role="Book" EntitySet="Book" />
-          </AssociationSet>
-          <AssociationSet Name="WritenBy" Association="Self.WritenBy">
-            <End Role="Author" EntitySet="Author" />
-            <End Role="Book" EntitySet="Book" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -252,57 +251,57 @@
           <EntitySetMapping Name="Author">
             <EntityTypeMapping TypeName="BookStoreModel.Author">
               <MappingFragment StoreEntitySet="Author">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AuthorName" ColumnName="AuthorName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Book">
             <EntityTypeMapping TypeName="BookStoreModel.Book">
               <MappingFragment StoreEntitySet="Book">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Genre">
             <EntityTypeMapping TypeName="BookStoreModel.Genre">
               <MappingFragment StoreEntitySet="Genre">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TypeGenre" ColumnName="TypeGenre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Publisher">
             <EntityTypeMapping TypeName="BookStoreModel.Publisher">
               <MappingFragment StoreEntitySet="Publisher">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PublisherName" ColumnName="PublisherName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="GenreIs" TypeName="BookStoreModel.GenreIs" StoreEntitySet="GenreIs">
+            <EndProperty Name="Book">
+              <ScalarProperty Name="Id" ColumnName="Book_Id" />
+            </EndProperty>
             <EndProperty Name="Genre">
               <ScalarProperty Name="Id" ColumnName="Genre_Id" />
             </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PublishedBy" TypeName="BookStoreModel.PublishedBy" StoreEntitySet="PublishedBy">
             <EndProperty Name="Book">
               <ScalarProperty Name="Id" ColumnName="Book_Id" />
             </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="PublishedBy" TypeName="BookStoreModel.PublishedBy" StoreEntitySet="PublishedBy">
             <EndProperty Name="Publisher">
               <ScalarProperty Name="Id" ColumnName="Publisher_Id" />
             </EndProperty>
-            <EndProperty Name="Book">
-              <ScalarProperty Name="Id" ColumnName="Book_Id" />
-            </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="WritenBy" TypeName="BookStoreModel.WritenBy" StoreEntitySet="WritenBy">
-            <EndProperty Name="Author">
-              <ScalarProperty Name="Id" ColumnName="Author_Id" />
-            </EndProperty>
             <EndProperty Name="Book">
               <ScalarProperty Name="Id" ColumnName="Book_Id" />
+            </EndProperty>
+            <EndProperty Name="Author">
+              <ScalarProperty Name="Id" ColumnName="Author_Id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

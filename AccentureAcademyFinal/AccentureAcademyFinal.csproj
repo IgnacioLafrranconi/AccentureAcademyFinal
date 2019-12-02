@@ -157,6 +157,7 @@
     <Compile Include="Models\Genre.cs">
       <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ListarViewModel.cs" />
     <Compile Include="Models\Publisher.cs">
       <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
@@ -220,6 +221,7 @@
     <Content Include="Views\Book\Agregar.cshtml" />
     <Content Include="Views\Book\Listar.cshtml" />
     <Content Include="Views\Book\Editar.cshtml" />
+    <Content Include="Views\Book\ListarCards.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
