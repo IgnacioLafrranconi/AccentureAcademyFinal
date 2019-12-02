@@ -98,7 +98,22 @@ Values
 ('Fantasia'),
 ('Policial'),
 ('Accion'),
-('Suspenso')
+('Suspenso'),
+('Gótica'),
+('Terror'),
+('Romántica'),
+('Drama'),
+('Ciencia Ficcion'),
+('Biografica'),
+('Autoayuda'),
+('Cocina'),
+('Conspiraciones'),
+('Religiosos');
+
+
+
+
+
 
 select * from Genre
 select * from Author
